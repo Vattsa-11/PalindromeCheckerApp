@@ -1,7 +1,7 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
+
 
 public class PalindromeCheckerApp {
 
@@ -9,38 +9,30 @@ public class PalindromeCheckerApp {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Take custom input from user
+        // Define the input string (custom input)
         System.out.print("Enter text: ");
         String input = scanner.nextLine();
 
+        // Create a Deque to store characters
+        Deque<Character> deque = new ArrayDeque<>();
 
-
-
-
-        // Create a Queue (FIFO)
-        Queue<Character> queue = new LinkedList<>();
-
-        // Create a Stack (LIFO)
-        Stack<Character> stack = new Stack<>();
-
-        // Insert each character into both queue and stack
+        // Add each character to the deque
         for (char c : input.toCharArray()) {
             if (Character.isLetterOrDigit(c)) {   // Optional: ignore spaces/special characters
-                c = Character.toLowerCase(c);     // Optional: case-insensitive check
-                queue.offer(c);   // Enqueue
-                stack.push(c);    // Push
+                c = Character.toLowerCase(c);     // Optional: case-insensitive comparison
+                deque.addLast(c);                 // Insert at rear
             }
         }
 
-        // Flag to track palindrome status
+        // Flag to track palindrome result
         boolean isPalindrome = true;
 
-        // Compare dequeue and pop results
-        while (!queue.isEmpty()) {
-            char fromQueue = queue.poll();   // FIFO
-            char fromStack = stack.pop();    // LIFO
+        // Continue comparison while more than one element exists
+        while (deque.size() > 1) {
+            char front = deque.removeFirst();   // Remove from front
+            char rear = deque.removeLast();     // Remove from rear
 
-            if (fromQueue != fromStack) {
+            if (front != rear) {
                 isPalindrome = false;
                 break;
             }
