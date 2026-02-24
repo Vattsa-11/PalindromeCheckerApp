@@ -1,5 +1,4 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 
@@ -9,30 +8,30 @@ public class PalindromeCheckerApp {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Define the input string (custom input)
+        // Define the input string
         System.out.print("Enter text: ");
         String input = scanner.nextLine();
 
-        // Create a Deque to store characters
-        Deque<Character> deque = new ArrayDeque<>();
+        // Create a LinkedList to store characters
+        LinkedList<Character> list = new LinkedList<>();
 
-        // Add each character to the deque
+        // Add each character to the linked list
         for (char c : input.toCharArray()) {
-            if (Character.isLetterOrDigit(c)) {   // Optional: ignore spaces/special characters
-                c = Character.toLowerCase(c);     // Optional: case-insensitive comparison
-                deque.addLast(c);                 // Insert at rear
+            if (Character.isLetterOrDigit(c)) {   // Optional filtering
+                c = Character.toLowerCase(c);     // Case insensitive
+                list.add(c);
             }
         }
 
-        // Flag to track palindrome result
+        // Flag to track palindrome state
         boolean isPalindrome = true;
 
-        // Continue comparison while more than one element exists
-        while (deque.size() > 1) {
-            char front = deque.removeFirst();   // Remove from front
-            char rear = deque.removeLast();     // Remove from rear
+        // Compare until only one or zero elements remain
+        while (list.size() > 1) {
+            char first = list.removeFirst();   // Remove from front
+            char last = list.removeLast();     // Remove from rear
 
-            if (front != rear) {
+            if (first != last) {
                 isPalindrome = false;
                 break;
             }
