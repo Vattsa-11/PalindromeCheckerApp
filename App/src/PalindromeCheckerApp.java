@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 import java.util.Scanner;
 
 
@@ -8,36 +7,14 @@ public class PalindromeCheckerApp {
 
         Scanner scanner = new Scanner(System.in);
 
-        // Define the input string
         System.out.print("Enter text: ");
         String input = scanner.nextLine();
 
-        // Create a LinkedList to store characters
-        LinkedList<Character> list = new LinkedList<>();
+        // Optional: normalize input (remove non-alphanumeric & make lowercase)
+        input = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        // Add each character to the linked list
-        for (char c : input.toCharArray()) {
-            if (Character.isLetterOrDigit(c)) {   // Optional filtering
-                c = Character.toLowerCase(c);     // Case insensitive
-                list.add(c);
-            }
-        }
+        boolean isPalindrome = check(input, 0, input.length() - 1);
 
-        // Flag to track palindrome state
-        boolean isPalindrome = true;
-
-        // Compare until only one or zero elements remain
-        while (list.size() > 1) {
-            char first = list.removeFirst();   // Remove from front
-            char last = list.removeLast();     // Remove from rear
-
-            if (first != last) {
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        // Display result
         if (isPalindrome) {
             System.out.println("The given string is a Palindrome.");
         } else {
@@ -45,5 +22,21 @@ public class PalindromeCheckerApp {
         }
 
         scanner.close();
+    }
+
+    private static boolean check(String s, int start, int end) {
+
+        // Base Condition: If start crosses or meets end
+        if (start >= end) {
+            return true;
+        }
+
+        // If characters do not match
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
+        }
+
+        // Recursive Call: Move towards the center
+        return check(s, start + 1, end - 1);
     }
 }
