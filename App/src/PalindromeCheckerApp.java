@@ -13,6 +13,10 @@ public class PalindromeCheckerApp {
         System.out.print("Enter text: ");
         String input = scanner.nextLine();
 
+
+
+
+
         // Create a Queue (FIFO)
         Queue<Character> queue = new LinkedList<>();
 
