@@ -1,5 +1,63 @@
 import java.util.Scanner;
+import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
+interface PalindromeStrategy {
+    boolean check(String input);
+}
+
+class StackStrategy implements PalindromeStrategy {
+
+    /**
+     * Implements palindrome validation using Stack.
+     * @param input String to validate
+     * @return true if palindrome, false otherwise
+     */
+    public boolean check(String input) {
+
+        input = input.toLowerCase();
+
+        // Create a stack to store characters
+        Stack<Character> stack = new Stack<>();
+
+        // Push each character onto the stack
+        for (char c : input.toCharArray()) {
+            stack.push(c);
+        }
+
+        // Compare characters by popping from stack
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+
+class DequeStrategy implements PalindromeStrategy {
+
+    public boolean check(String input) {
+
+        input = input.toLowerCase();
+
+        Deque<Character> deque = new ArrayDeque<>();
+
+        for (char c : input.toCharArray()) {
+            deque.add(c);
+        }
+
+        while (deque.size() > 1) {
+            if (!deque.pollFirst().equals(deque.pollLast())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
 
 public class PalindromeCheckerApp {
 
@@ -10,8 +68,19 @@ public class PalindromeCheckerApp {
         System.out.print("Enter text: ");
         String input = scanner.nextLine();
 
-        PalindromeService service = new PalindromeService();
-        boolean result = service.checkPalindrome(input);
+        System.out.print("Choose strategy (1 = Stack, 2 = Deque): ");
+        int choice = scanner.nextInt();
+
+        PalindromeStrategy strategy;
+
+        // Inject strategy at runtime
+        if (choice == 1) {
+            strategy = new StackStrategy();
+        } else {
+            strategy = new DequeStrategy();
+        }
+
+        boolean result = strategy.check(input);
 
         if (result) {
             System.out.println("It is a palindrome.");
@@ -23,35 +92,4 @@ public class PalindromeCheckerApp {
     }
 
 
-}
-
-class PalindromeService {
-
-    /**
-     * Checks whether the input string is a palindrome.
-     * @param input Input string
-     * @return true if palindrome, false otherwise
-     */
-    public boolean checkPalindrome(String input) {
-
-        // Convert to lowercase (normalization)
-        input = input.toLowerCase();
-
-        // Initialize pointers
-        int start = 0;
-        int end = input.length() - 1;
-
-        // Compare characters moving inward
-        while (start < end) {
-
-            if (input.charAt(start) != input.charAt(end)) {
-                return false;
-            }
-
-            start++;
-            end--;
-        }
-
-        return true;
-    }
 }
