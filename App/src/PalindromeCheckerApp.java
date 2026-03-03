@@ -5,38 +5,33 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String input = sc.nextLine();
 
-        System.out.print("Enter text: ");
-        String input = scanner.nextLine();
+        // Normalize string: remove spaces & convert to lowercase
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        // Optional: normalize input (remove non-alphanumeric & make lowercase)
-        input = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        boolean isPalindrome = true;
 
-        boolean isPalindrome = check(input, 0, input.length() - 1);
+        // Compare characters from both ends
+        for (int i = 0; i < normalized.length() / 2; i++) {
+
+            // Compare symmetric characters
+            if (normalized.charAt(i) !=
+                    normalized.charAt(normalized.length() - 1 - i)) {
+
+                isPalindrome = false;
+                break;
+            }
+        }
 
         if (isPalindrome) {
-            System.out.println("The given string is a Palindrome.");
+            System.out.println("It is a palindrome.");
         } else {
-            System.out.println("The given string is NOT a Palindrome.");
+            System.out.println("It is not a palindrome.");
         }
 
-        scanner.close();
-    }
-
-    private static boolean check(String s, int start, int end) {
-
-        // Base Condition: If start crosses or meets end
-        if (start >= end) {
-            return true;
-        }
-
-        // If characters do not match
-        if (s.charAt(start) != s.charAt(end)) {
-            return false;
-        }
-
-        // Recursive Call: Move towards the center
-        return check(s, start + 1, end - 1);
+        sc.close();
     }
 }
