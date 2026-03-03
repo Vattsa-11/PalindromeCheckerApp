@@ -5,33 +5,53 @@ public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter a string: ");
-        String input = sc.nextLine();
+        Scanner scanner = new Scanner(System.in);
 
-        // Normalize string: remove spaces & convert to lowercase
-        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+        System.out.print("Enter text: ");
+        String input = scanner.nextLine();
 
-        boolean isPalindrome = true;
+        PalindromeService service = new PalindromeService();
+        boolean result = service.checkPalindrome(input);
 
-        // Compare characters from both ends
-        for (int i = 0; i < normalized.length() / 2; i++) {
-
-            // Compare symmetric characters
-            if (normalized.charAt(i) !=
-                    normalized.charAt(normalized.length() - 1 - i)) {
-
-                isPalindrome = false;
-                break;
-            }
-        }
-
-        if (isPalindrome) {
+        if (result) {
             System.out.println("It is a palindrome.");
         } else {
             System.out.println("It is not a palindrome.");
         }
 
-        sc.close();
+        scanner.close();
+    }
+
+
+}
+
+class PalindromeService {
+
+    /**
+     * Checks whether the input string is a palindrome.
+     * @param input Input string
+     * @return true if palindrome, false otherwise
+     */
+    public boolean checkPalindrome(String input) {
+
+        // Convert to lowercase (normalization)
+        input = input.toLowerCase();
+
+        // Initialize pointers
+        int start = 0;
+        int end = input.length() - 1;
+
+        // Compare characters moving inward
+        while (start < end) {
+
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
+            }
+
+            start++;
+            end--;
+        }
+
+        return true;
     }
 }
